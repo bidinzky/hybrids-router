@@ -7,7 +7,11 @@ export function createRouter(hybrids: any) {
     const matchingRoute = historyMode
       ? host.routes.find((route) => unhash(route.path) === host.currentPath)
       : host.routes.find((route) => hash(route.path) === host.currentPath);
-
+    if(matchingRoute?.component) {
+        if(typeof matchingRoute.component == "function") {
+            return matchingRoute.component();
+        }
+    }
     return matchingRoute?.component || hybrids.html``;
   };
 
